@@ -1,0 +1,59 @@
+---
+- name: Deploy for MacOS
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  vars:
+    homebrew_cask_lists:
+      - slack
+      - zoom
+      - docker
+      - google-chrome
+      - google-japanese-ime
+      - firefox
+      - jetbrains-toolbox
+      - visual-studio-code
+      - macdown
+      - kindle
+      - spotify
+      - sketch
+      - istat-menus
+      - dropbox
+      - karabiner-elements
+      - alfred
+    homebrew_package_lists:
+      - vim
+      - tree
+      - git
+      - docker
+      - awscli
+      - ghq
+      - tig
+      - peco
+      - anyenv
+      - tmux
+      - yarn
+    git_directory: ~/src/github.com/
+  tasks:
+    - name: Install applications
+      homebrew_cask:
+        name: "{{ homebrew_cask_lists }}"
+        install_options: 'appdir=/Applications'
+        state: present
+      register: result
+      tags:
+        - brew
+
+    - name: Install packages
+      homebrew:
+        name: "{{ homebrew_package_lists }}"
+      tags:
+        - brew
+        - git
+
+    - name: Update homebrew and upgrade all packages
+      homebrew:
+        update-brew: yes
+        upgrade_all: yes
+      tags:
+        - brew
