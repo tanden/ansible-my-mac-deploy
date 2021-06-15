@@ -21,9 +21,7 @@
       - karabiner-elements
       - alfred
     homebrew_package_lists:
-      - vim
       - tree
-      - git
       - docker
       - awscli
       - ghq
